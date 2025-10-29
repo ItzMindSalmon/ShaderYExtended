@@ -11,7 +11,7 @@ uniform vec3 shadowLightPosition;
 uniform vec3 cameraPosition;
 
 /* DRAWBUFFERS: 0 */
-layout(location = 1) out vec4 outColor0;
+layout(location = 0) out vec4 outColor0;
 
 in vec3 foliageColor;
 in vec2 texCoord;
