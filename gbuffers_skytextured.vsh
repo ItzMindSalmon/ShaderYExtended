@@ -28,5 +28,6 @@ void main(){
     texCoord = vaUV0;
     foliageColor = vaColor.rgb;
 
+
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vaPosition + chunkOffset, 1);
 }

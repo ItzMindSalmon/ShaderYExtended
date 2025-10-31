@@ -1,5 +1,3 @@
-#version 460
-
 //uniforms
 uniform sampler2D gtexture;
 uniform sampler2D lightmap;
@@ -42,24 +40,15 @@ void main(){
     vec3 lightColor = pow(texture(lightmap, lightMapCoords).rgb, vec3(2.2)); // linear -> gamma
 
     /*specular (in light brightness)*/
-    vec4 specularData = texture(specular, texCoord);
     vec3 fragFeetPlayerSpace = (gbufferModelViewInverse * vec4(viewSpacePosition, 1.0)).xyz;
     vec3 fragWorldSpace = fragFeetPlayerSpace + cameraPosition;
 
     vec3 viewPosition = normalize(cameraPosition - fragWorldSpace);
-    vec3 reflectionDirection = reflect(shadowLightDirection, normalWorldSpace);
-  
-    float perceptualSmoothness = specularData.r;
-    float roughness = pow(1.0 - perceptualSmoothness, 2.0);
-    float smoothness = 1 - roughness;
 
     vec4 outputColorData = pow(texture(gtexture, texCoord), vec4(2.2));
-    vec3 outputColor = outputColorData.rgb * pow(foliageColor, vec3(2.2)) * lightColor;
+    vec3 outputColor = pow(outputColorData.rgb, vec3(2.2)) * pow(foliageColor, vec3(2.2)) * lightColor;
 
-    float diffuseLight = roughness * clamp(dot(shadowLightDirection, worldGeoNormal), 0.0, 1.0);
-    float ambientLight = 0.2;
-    float specularLight = smoothness * dot(shadowLightDirection, viewPosition);
-    float lightBrightness = ambientLight + diffuseLight + specularLight;
+    float diffuseLight = clamp(dot(shadowLightDirection, worldGeoNormal), 0.2, 1.0);
     // ^ light brightness
 
     // remove the color thing behind grasses and flowers
