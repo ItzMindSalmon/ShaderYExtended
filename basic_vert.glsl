@@ -29,5 +29,4 @@ void main(){
     foliageColor = vaColor.rgb;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vaPosition + chunkOffset, 1);
-    viewSpacePosition = (gl_ModelViewMatrix * gl_Vertex).xyz;
 }
